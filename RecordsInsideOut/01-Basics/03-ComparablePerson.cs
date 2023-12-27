@@ -5,7 +5,7 @@
         public string FirstName { get; init; }
         public string LastName { get; init; }
 
-        // Expression Body constructed
+        // Expression bodied constructors: NET 6
         public ComparablePerson(string firstName, string lastName) => (FirstName, LastName) = (firstName, lastName);
 
         public ComparablePerson() => (FirstName, LastName) = ("", "");
@@ -28,6 +28,7 @@
 
         public override int GetHashCode()
         {
+            // HashCode.Combine: NET 2.1
             return HashCode.Combine(FirstName, LastName);
         }
     }

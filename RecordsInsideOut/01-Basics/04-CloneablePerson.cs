@@ -5,7 +5,6 @@
         public string FirstName { get; init; }
         public string LastName { get; init; }
 
-        // Expression Body constructed
         public CloneablePerson(string firstName, string lastName) => (FirstName, LastName) = (firstName, lastName);
 
         public CloneablePerson() => (FirstName, LastName) = ("", "");

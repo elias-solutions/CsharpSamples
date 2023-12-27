@@ -2,4 +2,4 @@
 
 public record InheritancePerson(string FirstName, string LastName);
 
-public record InheritanceStudent(string FirstName, string LastName, string StudentId) : InheritancePerson(FirstName, LastName);
+public record InheritanceStudent(string FirstName, string LastName, int StudentId) : InheritancePerson(FirstName, LastName);

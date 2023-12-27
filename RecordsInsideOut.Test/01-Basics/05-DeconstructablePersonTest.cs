@@ -9,8 +9,8 @@ public class _05_DeconstructablePersonTest
     [Fact]
     public void Work_With_Deconstructable_Person()
     {
-        var person1 = new DeconstructablePerson("Charlie", "Chaplin");
-        var (firstName, _) = person1;
+        var person = new DeconstructablePerson("Charlie", "Chaplin");
+        var (firstName, _) = person;
 
         firstName.Should().Be("Charlie");
     }

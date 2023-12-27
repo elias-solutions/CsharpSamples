@@ -9,7 +9,7 @@ public class _02_InterfaceTest
     [Fact]
     public void _02_Work_With_Record_Inheritance()
     {
-        var student = new InheritanceStudent("John", "Doe", "XYZ");
+        var student = new InheritanceStudent("John", "Doe", 123456);
         student.Should().BeOfType<InheritanceStudent>();
     }
 }

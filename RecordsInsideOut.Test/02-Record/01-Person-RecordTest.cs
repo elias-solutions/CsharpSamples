@@ -26,7 +26,7 @@ namespace RecordsInsideOut.Test._02_Record
             person1.Should().Be(person2);
             person1.Should().NotBeSameAs(person2);
 
-            // Cloning without changes
+            // Cloning with changes
             var person3 = person1 with { FirstName = "Charlie" };
             person1.Should().NotBe(person3);
             person1.Should().NotBeSameAs(person3);
