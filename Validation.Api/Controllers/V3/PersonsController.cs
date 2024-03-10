@@ -1,15 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Validation.Api.Controllers;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Mvc;
+using Validation.Api.Models;
 using Validation.Api.Services;
+using Validation.Api.Services.Validator3;
 
-namespace Validation.Api.Models;
+namespace Validation.Api.Controllers.V3;
 
-[Route("api/v1/persons")]
-public class PersonsV1Controller : ControllerBase
+[ApiController]
+[ApiVersion("3.0")]
+[Route("api/v{version:apiVersion}/persons")]
+public class PersonsController : ControllerBase
 {
+    private readonly PersonsRequestFullValidation _validation;
     private readonly List<Person> _persons;
 
-    public PersonsV1Controller(PersonsService personsService) => _persons = personsService.GetPersons().ToList();
+    public PersonsController(PersonsService personsService, PersonsRequestFullValidation validation)
+    {
+        _validation = validation;
+        _persons = personsService.GetPersons().ToList();
+    }
 
     [HttpGet]
     public IActionResult Get() => Ok(_persons.ToList());
@@ -34,21 +43,7 @@ public class PersonsV1Controller : ControllerBase
     [HttpPost]
     public IActionResult Create(PersonCreateRequest request)
     {
-        if (request == null)
-        {
-            return BadRequest($"{nameof(request)} is null");
-        }
-
-        if (string.IsNullOrEmpty(request.FirstName))
-        {
-            return BadRequest($"{nameof(request.FirstName)} is null or empty");
-        }
-
-        if (string.IsNullOrEmpty(request.LastName))
-        {
-            return BadRequest($"{nameof(request.LastName)} is null or empty");
-        }
-
+        _validation.ThrowIfInvalid(request);
         var person = new Person(Guid.NewGuid(), request.FirstName, request.LastName);
         _persons.Add(person);
         return Ok(person);

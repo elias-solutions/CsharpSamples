@@ -17,5 +17,6 @@ public class _03_ComparablePersonTest
         };
 
         person1.Should().Be(person2);
+        person1.Should().NotBeSameAs(person2);
     }
 }

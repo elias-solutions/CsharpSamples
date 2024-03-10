@@ -1,19 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Validation.Api.Controllers;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Mvc;
+using Validation.Api.Models;
 using Validation.Api.Services;
-using Validation.Api.Services.Validator3;
+using Validation.Api.Services.Validator2;
 
-namespace Validation.Api.Models;
+namespace Validation.Api.Controllers.V2;
 
-[Route("api/v3/persons")]
-public class PersonsV3Controller : ControllerBase
+[ApiController]
+[ApiVersion("2.0")]
+[Route("api/v{version:apiVersion}/persons")]
+public class PersonsController : ControllerBase
 {
-    private readonly PersonsRequestFullValidation _validation;
+    private readonly PersonsValidator _personsValidator;
     private readonly List<Person> _persons;
 
-    public PersonsV3Controller(PersonsService personsService, PersonsRequestFullValidation validation)
+    public PersonsController(PersonsService personsService, PersonsValidator personsValidator)
     {
-        _validation = validation;
+        _personsValidator = personsValidator;
         _persons = personsService.GetPersons().ToList();
     }
 
@@ -40,7 +43,7 @@ public class PersonsV3Controller : ControllerBase
     [HttpPost]
     public IActionResult Create(PersonCreateRequest request)
     {
-        _validation.ThrowIfInvalid(request);
+        _personsValidator.ThrowIfInvalid(request);
         var person = new Person(Guid.NewGuid(), request.FirstName, request.LastName);
         _persons.Add(person);
         return Ok(person);

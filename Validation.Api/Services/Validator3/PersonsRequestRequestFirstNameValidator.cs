@@ -1,4 +1,4 @@
-﻿using Validation.Api.Controllers;
+﻿using Validation.Api.Models;
 
 namespace Validation.Api.Services.Validator3;
 
